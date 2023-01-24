@@ -1,0 +1,13 @@
+Resources:
+  TestApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Description: 'Test API'
+      Name: 'Test API'
+      FailOnWarnings: true
+      BinaryMediaTypes: 
+        - image/png
+        - text/txt
+      EndpointConfiguration:
+        Types:
+          - EDGE

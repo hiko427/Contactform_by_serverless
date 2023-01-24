@@ -1,0 +1,5 @@
+Resources:
+  buckettest2023:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: buckettsubasatest

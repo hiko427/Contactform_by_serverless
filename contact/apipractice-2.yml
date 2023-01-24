@@ -1,0 +1,226 @@
+openapi: 3.0.0
+info:
+  title: "apipractice"
+  version: 1.0.0
+servers:
+  - url: "https://example.com.question2/"
+    variables:
+      protocol:
+        default: https
+        enum:
+          - http
+          - https
+paths:
+  /contact:
+    get:
+      description: "get contact page"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: "get contact page"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/get-contact-index"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request"
+
+    post:
+      description: "post form"
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post-contact'
+      responses:
+        200:
+          description: "post form"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/post-contact-index"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request"
+
+  /contact/{id}:
+    put:
+      description: "put form"
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/put-contact"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: "unique key"
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "put form"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/put-contact-index"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request"
+
+    delete:
+      description: "delete form"
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: "unique key"
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "delete form"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/good-request"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      description: API key to authorize requests.
+      in: header
+      name: X-API-KEY
+
+  schemas:
+    get-contact:
+      type: object
+      properties:
+        lastname:
+          type: string
+          example: "last name"
+        firstname:
+          type: string
+          example : "first name"
+        email:
+          type: string
+          format: email
+          example : "email"
+        phone:
+          type: string
+          example : "phone number"
+        message:
+          type: string
+          example : "message"
+        checkbox:
+          type: boolean
+          example: true
+    get-contact-index:
+       allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "unique key"
+        - $ref: "#/components/schemas/get-contact"
+    post-contact:
+      type: object
+      properties:
+        lastname:
+          type: string
+          example: "last name"
+        firstname:
+          type: string
+          example : "first name"
+        email:
+          type: string
+          format: email
+          example : "email"
+        phone:
+          type: string
+          example : "phone number"
+        message:
+          type: string
+          example : "message"
+        checkbox:
+          type: boolean
+          example: true
+    post-contact-index:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+              description: "unique key"
+        - $ref: "#/components/schemas/post-contact"
+    put-contact:
+      type: object
+      properties:
+        lastname:
+          type: string
+          example: "new last name"
+        firstname:
+          type: string
+          example : "new first name"
+        email:
+          type: string
+          format: email
+          example : "new email"
+        phone:
+          type: string
+          example : "newphone number"
+        message:
+          type: string
+          example : "new message"
+        checkbox:
+          type: boolean
+          example: true
+    put-contact-index:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+              description: "unique key"
+        - $ref: "#/components/schemas/put-contact"
+    good-request:
+      type: object
+      properties:
+        message:
+          type: string
+          example : "good request"
+    bad-request:
+      type: object
+      properties:
+        message:
+          type: string
+          example : "error"
+  
